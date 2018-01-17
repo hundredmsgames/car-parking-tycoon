@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WheelDriveController : MonoBehaviour {
-
+public class WheelDriveController : MonoBehaviour
+{
 	private WheelCollider[] wheels;
 
 	private Rigidbody rigBody;
