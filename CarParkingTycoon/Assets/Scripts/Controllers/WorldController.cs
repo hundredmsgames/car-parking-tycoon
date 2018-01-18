@@ -7,16 +7,12 @@ public class WorldController : MonoBehaviour
     public static WorldController Instance;
 
 	public Dictionary<string, GameObject> carPrefabs;
-
 	public Dictionary<Car, GameObject> carGoDic;
 
-     Queue<Car> carsWaitingForParking;
-
-	Transform[] spawnPositions;
+	Transform[] spawnPoints;
 
 	public World world;
 
-    Car carForParking;
 	// Use this for initialization
 	void Start ()
 	{
@@ -25,7 +21,6 @@ public class WorldController : MonoBehaviour
 
         Instance = this;
 		carGoDic = new Dictionary<Car, GameObject>();
-        carsWaitingForParking = new Queue<Car>();
 
 		InitalizeWorld();
         InitializeCarPrefabs();
@@ -36,6 +31,7 @@ public class WorldController : MonoBehaviour
 	{
 		world = new World();
 		world.RegisterOnCarSpawnedCallback(OnCarSpawned);
+		world.RegisterGetNextSpawnPoint(GetNextSpawnPoint);
 	}
 
 	void InitializeCarPrefabs()
@@ -54,50 +50,26 @@ public class WorldController : MonoBehaviour
 	{
 		GameObject[] spawnPosGos = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
-		spawnPositions = new Transform[spawnPosGos.Length];
-		for(int i = 0; i < spawnPositions.Length; i++)
-			spawnPositions[i] = spawnPosGos[i].transform;
+		spawnPoints = new Transform[spawnPosGos.Length];
+		for(int i = 0; i < spawnPoints.Length; i++)
+			spawnPoints[i] = spawnPosGos[i].transform;
 	}
 
-    public void AddCarToParkingQueue(Car car)
-    {
-        if (carsWaitingForParking.Contains(car) == true)
-            return;
-        carsWaitingForParking.Enqueue(car);
-    }
 	// Update is called once per frame
 	void Update()
 	{
 		world.Update(Time.deltaTime);
-
-        if(carForParking == null && carsWaitingForParking!= null && carsWaitingForParking.Count > 0 )
-        { 
-            carForParking = carsWaitingForParking.Dequeue();
-            
-        }
-        if(carForParking != null && carForParking.isParked == false)
-        {
-            carForParking.controlledByNPC = false;
-        }
-        if (carForParking != null && carForParking.isParked == true)
-        {
-            carForParking.controlledByNPC = true;
-            carForParking = null;
-        }
-
-        if (Input.GetKeyDown(KeyCode.P) && carForParking != null)
-            carForParking.isParked = true;
-
     }
 
-	void OnCarSpawned(Car car)
+	void OnCarSpawned(Car car, int spawnIndex)
 	{
         if (carPrefabs.ContainsKey(car.name) == false)
             return;
+		
 		GameObject carGo = Instantiate<GameObject>(
 			carPrefabs[car.name],
-			spawnPositions[Random.Range(0, spawnPositions.Length)].position,
-			spawnPositions[Random.Range(0, spawnPositions.Length)].rotation
+			spawnPoints[spawnIndex].position,
+			spawnPoints[spawnIndex].rotation
 		);
 
 		carGo.transform.SetParent(gameObject.transform.GetChild(0));
@@ -106,14 +78,37 @@ public class WorldController : MonoBehaviour
 		var wheelDriveController = carGo.GetComponent<DriveController>();
 		wheelDriveController.car = car;
 
-        if (car.controlledByNPC == true)
+		if (car.controller == Controller.NPC)
         {
             // Register NPC callbacks.
-            car.npc.RegisterIsCarGroundedFunc(wheelDriveController.IsCarGrounded);
-            car.npc.RegisterIsThereObstacleFunc(wheelDriveController.IsThereObstacle);
-            car.npc.RegisterOnSetMotorTorque(wheelDriveController.SetMotorTorque);
-            car.npc.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
-            car.npc.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
+            car.RegisterIsCarGroundedFunc(wheelDriveController.IsCarGrounded);
+            car.RegisterIsThereObstacleFunc(wheelDriveController.IsThereObstacle);
+			car.RegisterGetSpeedOfCarFunc(wheelDriveController.GetSpeedOfCar);
+            car.RegisterOnSetMotorTorque(wheelDriveController.SetMotorTorque);
+            car.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
+            car.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
         }
+	}
+
+	private int GetNextSpawnPoint()
+	{
+		List<int> spawnablePoints = new List<int>();
+
+		for(int i = 0; i < spawnPoints.Length; i++)
+		{
+			// Vector3(1.5f, 1f, 1.5f) is enough to collide with cars at spawn point
+			// TODO: We can make it a const.
+
+			// FIXME: This is not working.
+			if(Physics.CheckBox(spawnPoints[i].position, new Vector3(1.5f, 1f, 1.5f)) == false)
+			{
+				spawnablePoints.Add(i);			
+			}
+		}
+
+		if(spawnablePoints.Count == 0)
+			return -1;
+
+		return Random.Range(0, spawnablePoints.Count);
 	}
 }

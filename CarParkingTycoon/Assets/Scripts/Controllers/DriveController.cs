@@ -51,11 +51,11 @@ public class DriveController : MonoBehaviour
             return;
         }
 
-        if (car.controlledByNPC == false)
+		if (car.controller == Controller.Player)
         {
-            steerAngle = car.maxSteerAngle * Input.GetAxis("Horizontal");
-            motorTorque = car.maxMotorTorque * Input.GetAxis("Vertical");
-            brakeTorque = car.maxBrakeTorque * Input.GetAxis("Jump");
+			steerAngle  = car.maxSteerAngle  * InputController.Instance.horAxis;
+			motorTorque = car.maxMotorTorque * InputController.Instance.verAxis;
+			brakeTorque = car.maxBrakeTorque * InputController.Instance.spaceKeyAxis;
         }
 
         foreach (WheelCollider wheel in wheels)
@@ -77,7 +77,7 @@ public class DriveController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float speed = rigBody.velocity.magnitude * 3.6f;
+		float speed = GetSpeedOfCar();
         rigBody.drag = Mathf.Clamp(((upperSpeedLimitForDrag - speed) / upperSpeedLimitForDrag) *
             (upperDragLimit - lowerDragLimit) + lowerDragLimit, lowerDragLimit, upperDragLimit);
 
@@ -91,7 +91,6 @@ public class DriveController : MonoBehaviour
                 wheel.motorTorque = motorTorque;
 
             wheel.brakeTorque = brakeTorque;
-
         }
     }
 
@@ -109,8 +108,6 @@ public class DriveController : MonoBehaviour
         Transform raycastPoint = gameObject.transform.Find("RaycastPoint");
 
         RaycastHit raycastInfo;
-
-      
 
         if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out raycastInfo, stoppingInterval) == false)
             return null;
@@ -133,4 +130,8 @@ public class DriveController : MonoBehaviour
         steerAngle = Mathf.Clamp(angle, -car.maxSteerAngle, car.maxSteerAngle);
     }
 
+	public float GetSpeedOfCar()
+	{
+		return rigBody.velocity.magnitude * 3.6f;
+	}
 }

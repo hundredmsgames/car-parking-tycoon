@@ -4,10 +4,27 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-	//public Transform car;
+	Vector3 enterOfCarPark;
+	Camera mainCamera;
+
+	void Start()
+	{
+		mainCamera = Camera.main;
+		enterOfCarPark = mainCamera.transform.position;
+	}
 
 	void Update ()
 	{
-		//Camera.main.transform.position = new Vector3(car.position.x, Camera.main.transform.position.y, car.position.z);
+		Car carForParking = WorldController.Instance.world.carForParking;
+
+		if(carForParking == null)
+		{
+			mainCamera.transform.position = enterOfCarPark;
+			return;
+		}
+
+		Vector3 carPos = WorldController.Instance.carGoDic[carForParking].transform.position;
+		carPos.y = enterOfCarPark.y;
+		mainCamera.transform.position = carPos;
 	}
 }

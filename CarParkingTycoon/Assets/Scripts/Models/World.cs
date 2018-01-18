@@ -5,28 +5,27 @@ using UnityEngine;
 
 public class World
 {
-	public static World Instance;
-
-	public List<Car> spawnedCars;
 
 	public Dictionary<string, Car> carProtos;
+
+	public List<Car> spawnedCars;
+	Queue<Car> carsWaitingForParking;
+
+	public Car carForParking;
 
 	float carSpawnInterval = 15f;
 	float carSpawnTime     = 0f;
 
 	// We may need to limit car count in the world.
-	int maxCarCount;
+	int maxCarCount = 20;
 
-	Action<Car> onCarSpawned;
+	Action<Car, int> onCarSpawned;
+	Func<int> getNextSpawnPoint;
 
 	public World()
 	{
-		if(Instance != null)
-			return;
-		
-		Instance = this;
-		
 		spawnedCars = new List<Car>();
+		carsWaitingForParking = new Queue<Car>();
 
 		InitializeCarProtos();
 	}
@@ -38,17 +37,28 @@ public class World
 		carProtos.Add(
 			"TempCar",
 			new Car(
-				"TempCar",  //car name
-				600f,       //maxTorque
-				2000f,      //maxBreakeTorque
-				30f,        //steering angle
-				100f,       //damage percent
-				10f,        //damage per hit ( DPH )
-				100,        //price
-				false,      //is parked
-                true       //controlled by NPC 
+				"TempCar",  		// car name
+				600f,       		// maxTorque
+				2000f,      		// maxBreakeTorque
+				30f,        		// steering angle
+				100f,       		// damage percent
+				10f,        		// damage per hit ( DPH )
+				100,        		// price
+				false,      		// is parked
+				Controller.NPC		// controlled by NPC 
 			)
 		);
+	}
+
+	public void AddCarToParkingQueue(Car car)
+	{
+		// FIXME: This control will be done every frame
+		// We can use Dictionary or we can reduce raycast
+		// interval. Maybe 100ms interval.
+		if (carsWaitingForParking.Contains(car) == true)
+			return;
+
+		carsWaitingForParking.Enqueue(car);
 	}
 
 	public void Update(float deltaTime)
@@ -77,27 +87,79 @@ public class World
 		// spawn new cars. So we need a Func here...
 		// Find a new spawn position and return.
 		// If there is none, do not spawn new car.
-		
+
+		// We have reached the max car count in the world.
+		// So do not spawn any car.
+		if(spawnedCars.Count > maxCarCount)
+			return;
+
+		if(getNextSpawnPoint == null)
+			return;
+
+		int spawnIndex = getNextSpawnPoint();
+
+		// There is no appropriate spawn point in the world.
+		if(spawnIndex == -1)
+			return;
+
 		Car spawnedCar = carProtos[carName].Clone();
 
-        if (spawnedCar.controlledByNPC == true)
-        {
-            spawnedCar.npc = new NPC(spawnedCar, 7f);
-        }
+		if (spawnedCar.controller == Controller.NPC)
+		{
+			spawnedCar.npc = new NPC(spawnedCar, 7f);
+		}
 
-        spawnedCars.Add(spawnedCar);
+		spawnedCars.Add(spawnedCar);
 
 		if(onCarSpawned != null)
-			onCarSpawned(spawnedCar);
+			onCarSpawned(spawnedCar, spawnIndex);
 	}
 
-	public void RegisterOnCarSpawnedCallback(Action<Car> cb)
+	public void NextCar()
+	{
+		if(carForParking != null || carsWaitingForParking == null || carsWaitingForParking.Count == 0)
+			return;
+
+		carForParking = carsWaitingForParking.Dequeue();
+		carForParking.controller = Controller.Player;
+	}
+
+	public void ParkCar()
+	{
+		// If position of the car is appropriate for park
+		// For now, anywhere is appropriate for park but the car
+		// should be stopped.
+
+		// TODO: If speed of car below 0.1f, we can show a button in the screen
+		// to park car. This idea is for mobile.
+		if(carForParking == null || carForParking.getSpeedOfCar == null ||
+			carForParking.getSpeedOfCar() > 0.1f)
+		{
+			return;
+		}
+
+		carForParking.controller = Controller.None;
+		carForParking.isParked = true;
+		carForParking = null;
+	}
+
+	public void RegisterOnCarSpawnedCallback(Action<Car, int> cb)
 	{
 		this.onCarSpawned += cb;
 	}
 
-	public void UnRegisterOnCarSpawnedCallback(Action<Car> cb)
+	public void UnRegisterOnCarSpawnedCallback(Action<Car, int> cb)
 	{
 		this.onCarSpawned -= cb;
+	}
+
+	public void RegisterGetNextSpawnPoint(Func<int> func)
+	{
+		this.getNextSpawnPoint += func;
+	}
+
+	public void UnRegisterGetNextSpawnPoint(Func<int> func)
+	{
+		this.getNextSpawnPoint -= func;
 	}
 }
