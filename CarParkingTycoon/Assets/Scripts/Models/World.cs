@@ -14,6 +14,9 @@ public class World
 	float carSpawnInterval = 5f;
 	float carSpawnTime     = 0f;
 
+	// We may need to limit car count in the world.
+	int maxCarCount;
+
 	Action<Car> onCarSpawned;
 
 	public World()

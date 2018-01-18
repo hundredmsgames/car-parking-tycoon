@@ -12,9 +12,6 @@ public class WorldController : MonoBehaviour
 
 	public World world;
 
-	// We may need to limit car count in the world.
-	int maxCarCount;
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -67,7 +64,7 @@ public class WorldController : MonoBehaviour
 		carGo.transform.SetParent(gameObject.transform.GetChild(0));
 		carGoDic.Add(car, carGo);
 
-		var wheelDriveController = carGo.GetComponent<WheelDriveController>();
+		var wheelDriveController = carGo.GetComponent<DriveController>();
 		wheelDriveController.car = car;
 
         if (car.controlledByNPC == true)

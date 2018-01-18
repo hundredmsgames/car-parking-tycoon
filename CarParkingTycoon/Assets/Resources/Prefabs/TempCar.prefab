@@ -383,6 +383,7 @@ GameObject:
   - component: {fileID: 54012368496459980}
   - component: {fileID: 114894865275449630}
   - component: {fileID: 114921349806298216}
+  - component: {fileID: 114087604201056628}
   m_Layer: 0
   m_Name: TempCar
   m_TagString: Untagged
@@ -728,8 +729,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1848032479600028}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.53421, y: 0.7630438, z: 15.068917}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 35.79, y: 1.18, z: 1.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4263450744435706}
@@ -741,7 +742,7 @@ Transform:
   - {fileID: 4348420436103506}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!23 &23010283969275678
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1355,6 +1356,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1134522, y: 0.47233534, z: 1.8665802}
   m_Center: {x: -0.000573198, y: -0.26383233, z: 0.0016703947}
+--- !u!114 &114087604201056628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848032479600028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640464f2cd8a4ad4790bf41eaea2ee28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wheelShapePrefab: {fileID: 1327774057208936, guid: 6afeb05f0fdcfa740b8f1df15b796d15,
+    type: 2}
 --- !u!114 &114894865275449630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1381,8 +1395,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c404b85b385524941abd8269eec9e2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheels: []
+  rigBody: {fileID: 0}
   wheelShapePrefab: {fileID: 1327774057208936, guid: 6afeb05f0fdcfa740b8f1df15b796d15,
     type: 2}
+  motorTorque: 0
+  brakeTorque: 0
+  steerAngle: 0
+  upperSpeedLimitForDrag: 15
+  lowerDragLimit: 0.1
+  upperDragLimit: 0.9
 --- !u!146 &146075010862282010
 WheelCollider:
   m_ObjectHideFlags: 1
@@ -1392,10 +1414,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9756.047
-    damper: 2229.9539
+    spring: 9756.035
+    damper: 2229.951
     targetPosition: 0.5
-  m_SuspensionDistance: 0.4004082
+  m_SuspensionDistance: 0.40040824
   m_ForceAppPointDistance: 0.5561677
   m_Mass: 20
   m_WheelDampingRate: 0.25
@@ -1421,10 +1443,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9778.478
-    damper: 2235.0808
+    spring: 9778.508
+    damper: 2235.0876
     targetPosition: 0.5
-  m_SuspensionDistance: 0.4004082
+  m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.5561677
   m_Mass: 20
   m_WheelDampingRate: 0.25
@@ -1450,8 +1472,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9843.953
-    damper: 2250.0464
+    spring: 9843.964
+    damper: 2250.0488
     targetPosition: 0.5
   m_SuspensionDistance: 0.40040815
   m_ForceAppPointDistance: 0.5561677
@@ -1479,10 +1501,10 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9821.521
-    damper: 2244.9194
+    spring: 9821.491
+    damper: 2244.9124
     targetPosition: 0.5
-  m_SuspensionDistance: 0.4004082
+  m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.5561677
   m_Mass: 20
   m_WheelDampingRate: 0.25
