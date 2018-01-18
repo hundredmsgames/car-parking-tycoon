@@ -9,7 +9,7 @@ public class WorldController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		
+        InitializeCarProtos();
 	}
 
 	void InitializeCarProtos()

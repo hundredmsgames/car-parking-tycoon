@@ -8,4 +8,7 @@ public class CarPark
 
 	int capacity;
 	int parkedCarCount;
+    List<Car> carsInPark;
+
+    //list of workers we own
 }
