@@ -70,11 +70,14 @@ public class WorldController : MonoBehaviour
 		var wheelDriveController = carGo.GetComponent<WheelDriveController>();
 		wheelDriveController.car = car;
 
-		// Register NPC callbacks.
-		car.npc.RegisterIsCarGroundedFunc(wheelDriveController.IsCarGrounded);
-		car.npc.RegisterIsThereObstacleFunc(wheelDriveController.IsThereObstacle);
-		car.npc.RegisterOnSetMotorTorque(wheelDriveController.SetMotorTorque);
-		car.npc.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
-		car.npc.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
+        if (car.controlledByNPC == true)
+        {
+            // Register NPC callbacks.
+            car.npc.RegisterIsCarGroundedFunc(wheelDriveController.IsCarGrounded);
+            car.npc.RegisterIsThereObstacleFunc(wheelDriveController.IsThereObstacle);
+            car.npc.RegisterOnSetMotorTorque(wheelDriveController.SetMotorTorque);
+            car.npc.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
+            car.npc.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
+        }
 	}
 }

@@ -35,14 +35,15 @@ public class World
 		carProtos.Add(
 			"TempCar",
 			new Car(
-				"TempCar",
-				600f,
-				2000f,
-				30f,
-				100f,
-				10f,
-				100,
-				false
+				"TempCar",  //car name
+				600f,       //maxTorque
+				2000f,      //maxBreakeTorque
+				30f,        //steering angle
+				100f,       //damage percent
+				10f,        //damage per hit ( DPH )
+				100,        //price
+				false,      //is parked
+                true       //controlled by NPC 
 			)
 		);
 	}
@@ -75,8 +76,13 @@ public class World
 		// If there is none, do not spawn new car.
 		
 		Car spawnedCar = carProtos[carName].Clone();
-		spawnedCar.npc = new NPC(spawnedCar, 7f);
-		spawnedCars.Add(spawnedCar);
+
+        if (spawnedCar.controlledByNPC == true)
+        {
+            spawnedCar.npc = new NPC(spawnedCar, 7f);
+        }
+
+        spawnedCars.Add(spawnedCar);
 
 		if(onCarSpawned != null)
 			onCarSpawned(spawnedCar);
