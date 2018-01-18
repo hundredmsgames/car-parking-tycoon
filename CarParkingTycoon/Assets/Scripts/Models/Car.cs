@@ -27,7 +27,7 @@ public class Car
     // if we want to buy or cell cars this will be usefull
     int price;
 
-	bool isParked;
+    public bool isParked;
 
 	public bool controlledByNPC;
 
@@ -72,9 +72,14 @@ public class Car
 
 	public void Update()
 	{
-		// If the car is not controlled by npc, just return.
-		if(controlledByNPC == false)
-			return;
+
+        // If the car is not controlled by npc, just return.
+        if (controlledByNPC == false)
+        {
+            
+            return;
+        }
+      
 		
 		npc.Update();
 	}

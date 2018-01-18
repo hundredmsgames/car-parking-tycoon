@@ -12,7 +12,7 @@ public class NPC
 	float stoppingInterval;
 
 	Func<bool> isCarGrounded;
-	Func<float, bool> isThereObstacle;
+	Func<float, string> isThereObstacle;
 	Action<float> onSetMotorTorque;
 	Action<float> onSetBrakeTorque;
 	Action<float> onSetSteerAngle;
@@ -31,16 +31,26 @@ public class NPC
 		
 		if(isThereObstacle != null)
 		{
-			// Ray toward forward 
-			if(isThereObstacle(stoppingInterval) == true)
+            string obstacle = isThereObstacle(stoppingInterval);
+            // Ray toward forward 
+            if (obstacle!= null)
 			{
-				// If there is something, stop the car.
+                // If there is something, check what is this object's tag.
+                // and act up to it
 
-				if(onSetBrakeTorque != null)
-					onSetBrakeTorque(car.maxBrakeTorque);
+                if (onSetBrakeTorque != null)
+                    onSetBrakeTorque(car.maxBrakeTorque);
 
-				if(onSetMotorTorque != null)
-					onSetMotorTorque(0f);
+                if (onSetMotorTorque != null)
+                    onSetMotorTorque(0f);
+
+                if (obstacle == "StopPoint")
+                {
+                    WorldController.Instance.AddCarToParkingQueue(car);
+                    
+                }
+
+				
 			}
 			else
 			{
@@ -66,12 +76,12 @@ public class NPC
 		this.isCarGrounded -= func;
 	}
 
-	public void RegisterIsThereObstacleFunc(Func<float, bool> func)
+	public void RegisterIsThereObstacleFunc(Func<float, string> func)
 	{
 		this.isThereObstacle += func;
 	}
 
-	public void UnRegisterIsThereObstacleFunc(Func<float, bool> func)
+	public void UnRegisterIsThereObstacleFunc(Func<float, string> func)
 	{
 		this.isThereObstacle -= func;
 	}

@@ -20,7 +20,7 @@ public class DriveController : MonoBehaviour
 
     // Drag variables. These are used to slow down the car
     // when there is no torque on it.
-    float upperSpeedLimitForDrag = 15f;
+    float upperSpeedLimitForDrag = 10f;
     float lowerDragLimit = 0.1f;
     float upperDragLimit = 0.9f;
 
@@ -91,6 +91,7 @@ public class DriveController : MonoBehaviour
                 wheel.motorTorque = motorTorque;
 
             wheel.brakeTorque = brakeTorque;
+
         }
     }
 
@@ -103,14 +104,18 @@ public class DriveController : MonoBehaviour
         return true;
     }
 
-    public bool IsThereObstacle(float stoppingInterval)
+    public string IsThereObstacle(float stoppingInterval)
     {
         Transform raycastPoint = gameObject.transform.Find("RaycastPoint");
 
-        if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, stoppingInterval) == false)
-            return false;
+        RaycastHit raycastInfo;
 
-        return true;
+      
+
+        if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out raycastInfo, stoppingInterval) == false)
+            return null;
+
+        return raycastInfo.collider.tag;
     }
 
     public void SetMotorTorque(float torque)

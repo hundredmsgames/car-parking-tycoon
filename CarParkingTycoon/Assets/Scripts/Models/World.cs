@@ -11,7 +11,7 @@ public class World
 
 	public Dictionary<string, Car> carProtos;
 
-	float carSpawnInterval = 5f;
+	float carSpawnInterval = 15f;
 	float carSpawnTime     = 0f;
 
 	// We may need to limit car count in the world.

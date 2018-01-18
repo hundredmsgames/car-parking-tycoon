@@ -382,7 +382,6 @@ GameObject:
   - component: {fileID: 4922466926204652}
   - component: {fileID: 54012368496459980}
   - component: {fileID: 114894865275449630}
-  - component: {fileID: 114921349806298216}
   - component: {fileID: 114087604201056628}
   m_Layer: 0
   m_Name: TempCar
@@ -1384,27 +1383,6 @@ MonoBehaviour:
   dampingRatio: 0.8
   forceShift: 0.03
   setSuspensionDistance: 1
---- !u!114 &114921349806298216
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1848032479600028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c404b85b385524941abd8269eec9e2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wheels: []
-  rigBody: {fileID: 0}
-  wheelShapePrefab: {fileID: 1327774057208936, guid: 6afeb05f0fdcfa740b8f1df15b796d15,
-    type: 2}
-  motorTorque: 0
-  brakeTorque: 0
-  steerAngle: 0
-  upperSpeedLimitForDrag: 15
-  lowerDragLimit: 0.1
-  upperDragLimit: 0.9
 --- !u!146 &146075010862282010
 WheelCollider:
   m_ObjectHideFlags: 1
