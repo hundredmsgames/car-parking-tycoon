@@ -109,7 +109,9 @@ public class DriveController : MonoBehaviour
 
         RaycastHit raycastInfo;
 
-        if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out raycastInfo, stoppingInterval) == false)
+        float carSpeed = car.getSpeedOfCar != null ? car.getSpeedOfCar() : 1;
+        float dist = Mathf.Clamp(stoppingInterval * carSpeed / 10, 2, stoppingInterval);
+        if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out raycastInfo, dist ) == false)
             return null;
 
         return raycastInfo.collider.tag;

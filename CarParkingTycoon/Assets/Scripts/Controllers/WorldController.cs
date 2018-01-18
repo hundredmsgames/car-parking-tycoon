@@ -11,6 +11,7 @@ public class WorldController : MonoBehaviour
 
 	Transform[] spawnPoints;
 
+    public LayerMask layerMask;
 	public World world;
 
 	// Use this for initialization
@@ -96,11 +97,13 @@ public class WorldController : MonoBehaviour
 
 		for(int i = 0; i < spawnPoints.Length; i++)
 		{
-			// Vector3(1.5f, 1f, 1.5f) is enough to collide with cars at spawn point
-			// TODO: We can make it a const.
+            // Vector3(1.5f, 1f, 1.5f) is enough to collide with cars at spawn point
+            // TODO: We can make it a const.
 
-			// FIXME: This is not working.
-			if(Physics.CheckBox(spawnPoints[i].position, new Vector3(1.5f, 1f, 1.5f)) == false)
+           
+
+            //this sphere will collide with only cars
+			if(Physics.OverlapSphere(spawnPoints[i].position,3f,layerMask).Length == 0)
 			{
 				spawnablePoints.Add(i);			
 			}
