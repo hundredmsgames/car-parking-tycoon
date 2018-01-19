@@ -13,7 +13,7 @@ public class World
 
 	public Car carForParking;
 
-	float carSpawnInterval = 5f;
+	float carSpawnInterval = 10;
 	float carSpawnTime     = 0f;
 
 	// We may need to limit car count in the world.
@@ -34,10 +34,11 @@ public class World
 	{
 		carProtos = new Dictionary<string, Car>();
 
-		carProtos.Add(
-			"TempCar",
-			new Car(
-				"TempCar",  		// car name
+        carProtos.Add(
+            "TempCar",
+            new Car(
+                "TempCar",  		// car name
+                10,                // car max speed
 				600f,       		// maxTorque
 				2000f,      		// maxBreakeTorque
 				30f,        		// steering angle
@@ -108,6 +109,9 @@ public class World
 		{
 			spawnedCar.npc = new NPC(spawnedCar, 7f);
 		}
+        //FIXME:
+        spawnedCar.maxSpeed = UnityEngine.Random.Range(10, 40);
+
 
 		spawnedCars.Add(spawnedCar);
 

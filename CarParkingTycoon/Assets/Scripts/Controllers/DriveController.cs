@@ -9,6 +9,8 @@ public class DriveController : MonoBehaviour
 
     public Car car;
 
+    public float currentSpeed;
+
     // Curr motor torque
     float motorTorque;
 
@@ -87,11 +89,16 @@ public class DriveController : MonoBehaviour
             if (wheel.transform.localPosition.z > 0)
                 wheel.steerAngle = steerAngle;
 
-            if (wheel.transform.localPosition.z < 0)
-                wheel.motorTorque = motorTorque;
-
+            if (currentSpeed < car.maxSpeed)
+            {
+                if (wheel.transform.localPosition.z < 0)
+                    wheel.motorTorque = motorTorque;
+            }
+            else
+                wheel.motorTorque = 0;
             wheel.brakeTorque = brakeTorque;
         }
+        currentSpeed = rigBody.velocity.sqrMagnitude;
     }
 
     public bool IsCarGrounded()
@@ -119,7 +126,10 @@ public class DriveController : MonoBehaviour
 
     public void SetMotorTorque(float torque)
     {
-        motorTorque = Mathf.Clamp(torque, -car.maxMotorTorque, car.maxMotorTorque);
+        if (currentSpeed < car.maxSpeed)
+            motorTorque = Mathf.Clamp(torque, -car.maxMotorTorque, car.maxMotorTorque);
+        else
+            motorTorque = 0;
     }
 
     public void SetBrakeTorque(float torque)

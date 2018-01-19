@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[Serializable]
 public class Car
 {
 	// Name is the brand
@@ -18,6 +18,9 @@ public class Car
 
 	// Max steer angle
 	public float maxSteerAngle;
+
+    //Max speed that this car can get
+    public float maxSpeed;
 
 	// %60 damaged
 	float damagePercent;
@@ -46,7 +49,7 @@ public class Car
 
 
 
-	public Car(string name, float maxMotorTorque, float maxBrakeTorque, float maxSteerAngle,
+	public Car(string name,float maxSpeed ,float maxMotorTorque, float maxBrakeTorque, float maxSteerAngle,
 		float damagePercent, float damageTakePerHit, int price, bool isParked, Controller controller = Controller.NPC)
 	{
 		this.name             = name;
@@ -58,12 +61,14 @@ public class Car
 		this.price            = price;
 		this.isParked         = isParked;
 		this.controller       = controller;
+        this.maxSpeed         = maxSpeed;
 	}
 
 	public Car Clone()
 	{
 		Car car = new Car(
 			this.name,
+            this.maxSpeed,
 			this.maxMotorTorque,
 			this.maxBrakeTorque,
 			this.maxSteerAngle,
