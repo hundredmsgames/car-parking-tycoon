@@ -79,8 +79,7 @@ public class DriveController : MonoBehaviour
 
     void FixedUpdate()
     {
-		float speed = GetSpeedOfCar();
-        rigBody.drag = Mathf.Clamp(((upperSpeedLimitForDrag - speed) / upperSpeedLimitForDrag) *
+		rigBody.drag = Mathf.Clamp(((upperSpeedLimitForDrag - currentSpeed) / upperSpeedLimitForDrag) *
             (upperDragLimit - lowerDragLimit) + lowerDragLimit, lowerDragLimit, upperDragLimit);
 
         foreach (WheelCollider wheel in wheels)
@@ -95,10 +94,14 @@ public class DriveController : MonoBehaviour
                     wheel.motorTorque = motorTorque;
             }
             else
+			{
                 wheel.motorTorque = 0;
+			}
+
             wheel.brakeTorque = brakeTorque;
         }
-        currentSpeed = rigBody.velocity.sqrMagnitude;
+
+		currentSpeed = GetSpeedOfCar();
     }
 
     public bool IsCarGrounded()
@@ -116,8 +119,8 @@ public class DriveController : MonoBehaviour
 
         RaycastHit raycastInfo;
 
-        float carSpeed = car.getSpeedOfCar != null ? car.getSpeedOfCar() : 1;
-        float dist = Mathf.Clamp(stoppingInterval * carSpeed / 10, 2, stoppingInterval);
+        //float carSpeed = car.getSpeedOfCar != null ? car.getSpeedOfCar() : 1;
+		float dist = Mathf.Clamp(stoppingInterval * currentSpeed / 10, 2, stoppingInterval);
         if (Physics.Raycast(raycastPoint.position, raycastPoint.forward, out raycastInfo, dist ) == false)
             return null;
 

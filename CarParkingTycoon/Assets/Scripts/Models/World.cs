@@ -38,7 +38,7 @@ public class World
             "TempCar",
             new Car(
                 "TempCar",  		// car name
-                10,                // car max speed
+                40f,                // car max speed
 				600f,       		// maxTorque
 				2000f,      		// maxBreakeTorque
 				30f,        		// steering angle
@@ -109,9 +109,6 @@ public class World
 		{
 			spawnedCar.npc = new NPC(spawnedCar, 7f);
 		}
-        //FIXME:
-        spawnedCar.maxSpeed = UnityEngine.Random.Range(10, 40);
-
 
 		spawnedCars.Add(spawnedCar);
 

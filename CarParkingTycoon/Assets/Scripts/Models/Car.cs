@@ -49,7 +49,7 @@ public class Car
 
 
 
-	public Car(string name,float maxSpeed ,float maxMotorTorque, float maxBrakeTorque, float maxSteerAngle,
+	public Car(string name, float maxSpeed ,float maxMotorTorque, float maxBrakeTorque, float maxSteerAngle,
 		float damagePercent, float damageTakePerHit, int price, bool isParked, Controller controller = Controller.NPC)
 	{
 		this.name             = name;
