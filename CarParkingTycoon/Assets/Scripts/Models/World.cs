@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class World
 {
-
 	public Dictionary<string, Car> carProtos;
+
+	public CarPark carPark;
 
 	public List<Car> spawnedCars;
 	Queue<Car> carsWaitingForParking;
@@ -26,6 +27,8 @@ public class World
 	{
 		spawnedCars = new List<Car>();
 		carsWaitingForParking = new Queue<Car>();
+
+		carPark = new CarPark();
 
 		InitializeCarProtos();
 	}
@@ -91,7 +94,7 @@ public class World
 
 		// We have reached the max car count in the world.
 		// So do not spawn any car.
-		if(spawnedCars.Count > maxCarCount)
+		if(spawnedCars.Count >= maxCarCount)
 			return;
 
 		if(getNextSpawnPoint == null)
@@ -125,7 +128,7 @@ public class World
 		carForParking.controller = Controller.Player;
 	}
 
-	public void ParkCar()
+	public void ParkCar(ParkingSpace ps)
 	{
 		// If position of the car is appropriate for park
 		// For now, anywhere is appropriate for park but the car
@@ -139,6 +142,9 @@ public class World
 			return;
 		}
 
+		if(carPark.IsCarParked(carForParking, ps) == false)
+			return;
+		Debug.Log("hi");
 		carForParking.controller = Controller.None;
 		carForParking.isParked = true;
 		carForParking = null;

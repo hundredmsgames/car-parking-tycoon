@@ -15,7 +15,7 @@ public class WorldController : MonoBehaviour
 	public World world;
 
 	// Use this for initialization
-	void Start ()
+	void Awake()
 	{
         if (Instance != null)
             return;

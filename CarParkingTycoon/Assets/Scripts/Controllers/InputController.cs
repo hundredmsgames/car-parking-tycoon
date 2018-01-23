@@ -27,9 +27,6 @@ public class InputController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if(Input.GetKeyDown(KeyCode.P) == true)
-			WorldController.Instance.world.ParkCar();
-
 		if(Input.GetKeyDown(KeyCode.N) == true)
 			WorldController.Instance.world.NextCar();
 
