@@ -156,6 +156,10 @@ Prefab:
       propertyPath: m_Name
       value: ParkingSpace1
       objectReference: {fileID: 0}
+    - target: {fileID: 1156370279231374, guid: e333b53aa1b75dd4a9d86cdb84a3feb5, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e333b53aa1b75dd4a9d86cdb84a3feb5, type: 2}
   m_IsPrefabParent: 0

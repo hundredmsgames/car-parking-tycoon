@@ -33,7 +33,19 @@ public class Car
 
     public bool isParked;
 
-	public Controller controller;
+    private Controller _controller;
+	public Controller controller
+    {
+        get { return _controller; }
+        set
+        {
+            if (value == Controller.Player)
+            {
+                if (onPlayerControl != null)
+                    onPlayerControl(this);
+            }
+        }
+    }
 
 	public Func<bool> isCarGrounded;
 	public Func<float, string> isThereObstacle;
@@ -41,6 +53,7 @@ public class Car
 	public Action<float> onSetMotorTorque;
 	public Action<float> onSetBrakeTorque;
 	public Action<float> onSetSteerAngle;
+    public Action<Car> onPlayerControl;
 
 	// if you want to see specific car info you can add as much as you want
     // we can think about adding smoke particule over decent amount of damage
@@ -156,8 +169,16 @@ public class Car
 	{
 		this.onSetSteerAngle -= cb;
 	}
+    public void RegisterOnPlayerControl(Action<Car> cb)
+    {
+        this.onPlayerControl += cb;
+    }
+
+    public void UnRegisterOnPlayerControl(Action<Car> cb)
+    {
+        this.onPlayerControl -= cb;
+    }
 
 
-
-	#endregion
+    #endregion
 }

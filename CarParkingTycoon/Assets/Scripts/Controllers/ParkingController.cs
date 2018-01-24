@@ -6,8 +6,12 @@ public class ParkingController : MonoBehaviour
 {
 	CarParkController carParkController;
 
+
+
 	void OnTriggerStay(Collider col)
 	{
+
+        
 		Debug.Log("Stay");
 
 		if(col.tag != "ParkingSpace")

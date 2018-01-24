@@ -11,6 +11,8 @@ public class WorldController : MonoBehaviour
 
 	Transform[] spawnPoints;
 
+   
+
     public LayerMask layerMask;
 	public World world;
 
@@ -89,8 +91,11 @@ public class WorldController : MonoBehaviour
             car.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
             car.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
         }
+        
 	}
 
+ 
+   
 	private int GetNextSpawnPoint()
 	{
 		List<int> spawnablePoints = new List<int>();
