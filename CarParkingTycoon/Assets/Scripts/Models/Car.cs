@@ -24,7 +24,7 @@ public class Car
     public float maxSpeed;
 
 	// %60 damaged
-	float damagePercent;
+	float currentCarStatePercent;
 
 	// sensivity of car
     float damageTakePerHit;
@@ -72,7 +72,7 @@ public class Car
 		this.maxMotorTorque   = maxMotorTorque;
 		this.maxBrakeTorque   = maxBrakeTorque;
 		this.maxSteerAngle    = maxSteerAngle;
-		this.damagePercent    = damagePercent;
+		this.currentCarStatePercent    = damagePercent;
 		this.damageTakePerHit = damageTakePerHit;
 		this.price            = price;
 		this.isParked         = isParked;
@@ -88,7 +88,7 @@ public class Car
 			this.maxMotorTorque,
 			this.maxBrakeTorque,
 			this.maxSteerAngle,
-			this.damagePercent,
+			this.currentCarStatePercent,
 			this.damageTakePerHit,
 			this.price,
 			this.isParked,
@@ -98,6 +98,10 @@ public class Car
 		return car;
 	}
 
+    public void TakeDamage()
+    {
+        currentCarStatePercent -= damageTakePerHit;
+    }
 	public void Update()
 	{
         // If the car is not controlled by npc, just return.
