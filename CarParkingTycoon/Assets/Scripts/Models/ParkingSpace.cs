@@ -6,10 +6,10 @@ public class ParkingSpace
 {
 	Car parkedCar;
 
-	float posX;
-	float posZ;
-	float width;
-	float height;
+	public float posX;
+	public float posZ;
+	public float width;
+	public float height;
 
 	public bool occupied;
 

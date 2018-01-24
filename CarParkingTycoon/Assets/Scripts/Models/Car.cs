@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [Serializable]
 public class Car
 {
@@ -31,6 +32,8 @@ public class Car
     // if we want to buy or cell cars this will be usefull
     int price;
 
+	const float stopError = 0.1f;
+
     public bool isParked;
 
     private Controller _controller;
@@ -39,6 +42,7 @@ public class Car
         get { return _controller; }
         set
         {
+			_controller = value;
             if (value == Controller.Player)
             {
                 if (onPlayerControl != null)
@@ -54,13 +58,12 @@ public class Car
 	public Action<float> onSetBrakeTorque;
 	public Action<float> onSetSteerAngle;
     public Action<Car> onPlayerControl;
+	public Func<Vector3[]> getParkingInfo;
 
 	// if you want to see specific car info you can add as much as you want
     // we can think about adding smoke particule over decent amount of damage
     // maybe fuel
     // TODO : think about adding events or callbacks to appropriate variables that we might need(explain with a good reason)
-
-
 
 	public Car(string name, float maxSpeed ,float maxMotorTorque, float maxBrakeTorque, float maxSteerAngle,
 		float damagePercent, float damageTakePerHit, int price, bool isParked, Controller controller = Controller.NPC)
@@ -99,12 +102,39 @@ public class Car
 	{
         // If the car is not controlled by npc, just return.
 		if (controller != Controller.NPC)
-        {       
+		{
             return;
         }
-      
-		
+
 		npc.Update();
+	}
+
+	public void ParkCar(ParkingSpace ps)
+	{
+		StopTheCar();
+		controller = Controller.None;
+		isParked = true;
+		ps.occupied = true;
+
+		CarPark carPark = WorldController.Instance.world.carPark;
+		carPark.ParkCar(this, ps);
+	}
+
+	public void StopTheCar()
+	{
+		if(onSetMotorTorque != null)
+			onSetMotorTorque(0f);
+
+		if(onSetBrakeTorque != null)
+			onSetBrakeTorque(maxBrakeTorque);
+	}
+
+	public bool IsCarMoving()
+	{
+		if(getSpeedOfCar == null)
+			return false;
+
+		return (getSpeedOfCar() > stopError);
 	}
 
 
@@ -169,6 +199,7 @@ public class Car
 	{
 		this.onSetSteerAngle -= cb;
 	}
+
     public void RegisterOnPlayerControl(Action<Car> cb)
     {
         this.onPlayerControl += cb;
@@ -179,6 +210,15 @@ public class Car
         this.onPlayerControl -= cb;
     }
 
+	public void RegisterGetParkingInfo(Func<Vector3[]> cb)
+	{
+		this.getParkingInfo += cb;
+	}
+
+	public void UnRegisterGetParkingInfo(Func<Vector3[]> cb)
+	{
+		this.getParkingInfo -= cb;
+	}
 
     #endregion
 }

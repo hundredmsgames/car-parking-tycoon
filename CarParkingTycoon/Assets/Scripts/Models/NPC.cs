@@ -30,7 +30,7 @@ public class NPC
 			// Ray toward forward 
 
 			string obstacle = car.isThereObstacle(stoppingInterval);
-            
+
             if (obstacle != null)
 			{
                 // If there is something, check what is this object's tag.
@@ -42,7 +42,7 @@ public class NPC
 				if (car.onSetMotorTorque != null)
 					car.onSetMotorTorque(0f);
 
-                if (obstacle == "StopPoint")
+				if (obstacle == "StopPoint" && car.IsCarMoving() == false)
                 {
                     WorldController.Instance.world.AddCarToParkingQueue(car);
                 }

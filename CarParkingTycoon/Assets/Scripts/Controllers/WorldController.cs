@@ -64,6 +64,11 @@ public class WorldController : MonoBehaviour
 		world.Update(Time.deltaTime);
     }
 
+	void FixedUpdate()
+	{
+		world.PhysicsUpdate();
+	}
+
 	void OnCarSpawned(Car car, int spawnIndex)
 	{
         if (carPrefabs.ContainsKey(car.name) == false)
@@ -79,6 +84,7 @@ public class WorldController : MonoBehaviour
 		carGoDic.Add(car, carGo);
 
 		var wheelDriveController = carGo.GetComponent<DriveController>();
+		var parkingController    = carGo.GetComponent<ParkingController>();
 		wheelDriveController.car = car;
 
 		if (car.controller == Controller.NPC)
@@ -90,12 +96,10 @@ public class WorldController : MonoBehaviour
             car.RegisterOnSetMotorTorque(wheelDriveController.SetMotorTorque);
             car.RegisterOnSetBrakeTorque(wheelDriveController.SetBrakeTorque);
             car.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
-        }
-        
+			car.RegisterGetParkingInfo(parkingController.GetParkingInfo);
+        }        
 	}
 
- 
-   
 	private int GetNextSpawnPoint()
 	{
 		List<int> spawnablePoints = new List<int>();

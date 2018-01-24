@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     Vector3 enterOfCarPark;
 	Camera mainCamera;
 
-    bool cameraLocked=false;
+    bool cameraLocked;
 
 	void Start()
 	{
@@ -17,9 +17,10 @@ public class CameraController : MonoBehaviour
 		enterOfCarPark = mainCamera.transform.position;
 	}
 
-	void Update ()
+	void LateUpdate()
 	{
 		Car carForParking = WorldController.Instance.world.carForParking;
+		Vector3 cameraPos = mainCamera.transform.position;
 
 		if(carForParking == null)
 		{
@@ -27,21 +28,21 @@ public class CameraController : MonoBehaviour
             mainCamera.transform.position = enterOfCarPark;
 			return;
 		}
-        Vector3 carPos=enterOfCarPark;
 
-      //  Debug.Log();
+		GameObject carForParkingGo = WorldController.Instance.carGoDic[carForParking];
+        Vector3 carPos = enterOfCarPark;
 
-        if (cameraLocked ==false && 
-            Vector2.Distance(new Vector2(mainCamera.transform.position.x, mainCamera.transform.position.z),
-            new Vector2(WorldController.Instance.carGoDic[carForParking].transform.position.x, 
-            WorldController.Instance.carGoDic[carForParking].transform.position.z)) > .1)
-            carPos = Vector3.Lerp(mainCamera.transform.position, WorldController.Instance.carGoDic[carForParking].transform.position, 
-                Time.deltaTime * speed);
-        else
+        if (cameraLocked == false && Vector2.Distance(new Vector2(cameraPos.x, cameraPos.z),
+				new Vector2(carForParkingGo.transform.position.x, carForParkingGo.transform.position.z)) > .1
+		){
+			carPos = Vector3.Lerp(mainCamera.transform.position, carForParkingGo.transform.position, Time.deltaTime * speed);
+		}
+		else
         {
             cameraLocked = true;
             carPos = WorldController.Instance.carGoDic[carForParking].transform.position;
         }
+
         carPos.y = enterOfCarPark.y;
 		mainCamera.transform.position = carPos;
 

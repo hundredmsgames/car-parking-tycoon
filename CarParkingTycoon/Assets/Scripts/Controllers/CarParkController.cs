@@ -17,18 +17,25 @@ public class CarParkController : MonoBehaviour
 		for(int i = 0; i < parkingSpaces.childCount; i++)
 		{
 			Transform psTrf  = parkingSpaces.GetChild(i);
-			Transform area  = psTrf.Find("Area");
+			Vector3 psColliderScale = psTrf.GetComponent<BoxCollider>().size;
 
-			ParkingSpace ps = new ParkingSpace(psTrf.position.x, psTrf.position.z, area.localScale.x, area.localScale.z);
+			ParkingSpace ps = new ParkingSpace(psTrf.position.x, psTrf.position.z, psColliderScale.x, psColliderScale.z);
 			WorldController.Instance.world.carPark.AddParkingSpace(ps);
 			parkingSpaceGoMap.Add(ps, psTrf.gameObject);
 			goToParkingSpaceMap.Add(psTrf.gameObject, ps);
 		}
+
+		WorldController.Instance.world.carPark.RegisterOnCarParked(OnCarParked);
 	}
 	
 	public ParkingSpace GetParkingSpace(GameObject psGo)
 	{
 		return goToParkingSpaceMap[psGo];
+	}
+
+	public void OnCarParked(Car car, ParkingSpace ps)
+	{
+		ToggleParkingSpaceIndicator(ps, false);
 	}
 
 	public void ToggleParkingSpaceIndicator(ParkingSpace ps, bool enable)

@@ -75,7 +75,10 @@ public class World
 		}
 
 		carSpawnTime -= deltaTime;
+	}
 
+	public void PhysicsUpdate()
+	{
 		UpdateSpawnedCars();
 	}
 
@@ -142,12 +145,11 @@ public class World
 			return;
 		}
 
-		if(carPark.IsCarParked(carForParking, ps) == false)
-			return;
-		Debug.Log("hi");
-		carForParking.controller = Controller.None;
-		carForParking.isParked = true;
-		carForParking = null;
+		if(carPark.IsCarParked(carForParking, ps) == true)
+		{
+			carForParking.ParkCar(ps);
+			carForParking = null;
+		}
 	}
 
 	public void RegisterOnCarSpawnedCallback(Action<Car, int> cb)
