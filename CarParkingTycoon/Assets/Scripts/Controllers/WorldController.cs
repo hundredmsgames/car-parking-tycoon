@@ -11,8 +11,8 @@ public class WorldController : MonoBehaviour
 
 	Transform[] spawnPoints;
 
-   
 
+    public GameObject CarControlCanvas;
     public LayerMask layerMask;
 	public World world;
 

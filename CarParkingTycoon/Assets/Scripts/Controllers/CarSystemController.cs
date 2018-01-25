@@ -5,10 +5,14 @@ using UnityEngine;
 public class CarSystemController : MonoBehaviour {
 
     DriveController driveController = null;
-    
+
+    public GameObject CarControlCanvas;
     // Use this for initialization
     void Start () {
         driveController = GetComponent<DriveController>();
+
+        CarControlCanvas = WorldController.Instance.CarControlCanvas;
+
     }
 	
     private void OnMouseOver()
@@ -17,12 +21,13 @@ public class CarSystemController : MonoBehaviour {
         {
                 if (driveController != null)
                 {
-                    driveController.car.controller = Controller.Player;
 
-                    if (WorldController.Instance.world.carForParking != null)
-                        WorldController.Instance.world.carForParking.controller = Controller.None;
+                //activate UI
+                if(CarControlCanvas.activeSelf == false)
+                    CarControlCanvas.SetActive(true);
 
-                    WorldController.Instance.world.carForParking = driveController.car;
+                CarControlCanvas.transform.SetParent(transform);
+                CarControlCanvas.GetComponent<CarControlCanvasController>().SetCurrentCarsDriverController(driveController);
 
                 }
             }
