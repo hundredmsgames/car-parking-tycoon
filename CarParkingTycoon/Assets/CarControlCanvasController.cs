@@ -39,20 +39,45 @@ public class CarControlCanvasController : MonoBehaviour {
     {
 		Car carForParking = WorldController.Instance.world.carForParking;
 
-		if(carForParking == null || carForParking.getSpeedOfCar == null ||
+
+        // We selected car is controlled car by player. We may not show take control button.
+        // This is a temporary solution.
+        if (carForParking !=null && currCar == carForParking && currCar.controller == controller)
+        {
+            Debug.Log("exit");
+            ExitButton();
+            return;
+        }
+
+        if ((carForParking != null && carForParking.getSpeedOfCar != null) &&
 			carForParking.getSpeedOfCar() > 0.1f)
 		{
-			return;
+            return;
 		}
+        else if((carForParking != null && carForParking.getSpeedOfCar != null) &&
+            carForParking.getSpeedOfCar() <=0.1f)
+        {
+            if (currCar != carForParking)
+            {
+                currCar.controller = controller;
+                carForParking.controller = Controller.None;
+                WorldController.Instance.world.carForParking = currCar;
+            }
+            else
+            {
+                WorldController.Instance.world.carForParking.controller = controller;
+            }
+            Debug.Log(controller);
+        }
+        else
+        {
+            currCar.controller = controller;
+            WorldController.Instance.world.carForParking = currCar;
+        }
 
-		// We selected car is controlled car by player. We may not show take control button.
-		// This is a temporary solution.
-		if(currCar == carForParking)
-			return;
+		
 
-		currCar.controller = controller;
-        carForParking.controller = Controller.None;
-		WorldController.Instance.world.carForParking = currCar;
+		
         
 		ExitButton();
     }

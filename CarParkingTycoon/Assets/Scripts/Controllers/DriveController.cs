@@ -147,6 +147,6 @@ public class DriveController : MonoBehaviour
 
 	public float GetSpeedOfCar()
 	{
-		return rigBody.velocity.magnitude * 3.6f;
+		return Mathf.Abs(rigBody.velocity.magnitude * 3.6f);
 	}
 }

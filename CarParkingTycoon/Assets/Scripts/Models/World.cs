@@ -18,7 +18,7 @@ public class World
 	float carSpawnTime     = 0f;
 
 	// We may need to limit car count in the world.
-	int maxCarCount = 20;
+	int maxCarCount = 2;
 
 	Action<Car, int> onCarSpawned;
 	Func<int> getNextSpawnPoint;
