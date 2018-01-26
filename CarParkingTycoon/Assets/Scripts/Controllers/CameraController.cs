@@ -9,15 +9,51 @@ public class CameraController : MonoBehaviour
     Vector3 enterOfCarPark;
 	Camera mainCamera;
 
+    //camera drag drop
+    public float dragSpeed = 2;
+    private Vector3 dragOrigin;
+
     bool cameraLocked;
 
 	void Start()
 	{
 		mainCamera = Camera.main;
 		enterOfCarPark = mainCamera.transform.position;
-	}
 
-	void LateUpdate()
+    }
+
+    void OnMouseDrag()
+    {
+        
+
+
+    }
+
+
+
+    void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            point.y = mainCamera.transform.position.y;
+            mainCamera.transform.position = point;
+            Debug.Log(point);
+        }
+
+        ////if I release button return
+        //if (!Input.GetMouseButton(0)) return;
+
+        //Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        //Vector3 move = new Vector3(pos.x , 0, pos.y);
+
+        //mainCamera.transform.Translate(move, Space.World);
+
+        ////dragOrigin = Input.mousePosition;
+    }
+
+
+    void LateUpdater()
 	{
 		Car carForParking = WorldController.Instance.world.carForParking;
 		Vector3 cameraPos = mainCamera.transform.position;

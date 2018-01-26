@@ -23,15 +23,24 @@ public class CarControlCanvasController : MonoBehaviour {
         transform.rotation = mainCamera.transform.rotation;
     }
 
-    public void TakeControl()
+    public void Player()
     {
+        GiveControl(Controller.Player); 
+    }
+    public void NPC()
+    {
+        GiveControl(Controller.NPC);
+    }
 
-        driveController.car.controller = Controller.Player;
+    public void GiveControl(Controller controller)
+    {
+        driveController.car.controller = controller;
 
         if (WorldController.Instance.world.carForParking != null)
             WorldController.Instance.world.carForParking.controller = Controller.None;
 
         WorldController.Instance.world.carForParking = driveController.car;
+        ExitButton();
     }
 
     public void SetCurrentCarsDriverController(DriveController _driveController)
