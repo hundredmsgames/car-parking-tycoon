@@ -7,14 +7,16 @@ public class CarControlCanvasController : MonoBehaviour {
     public static CarControlCanvasController Instance;
 
     Camera mainCamera;
-    DriveController driveController;
+	Car currCar;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
         if (Instance != null)
             return;
-        Instance = this;
+    
+		Instance = this;
         mainCamera = Camera.main;
-
 	}
 	
 	// Update is called once per frame
@@ -27,6 +29,7 @@ public class CarControlCanvasController : MonoBehaviour {
     {
         GiveControl(Controller.Player); 
     }
+
     public void NPC()
     {
         GiveControl(Controller.NPC);
@@ -34,18 +37,20 @@ public class CarControlCanvasController : MonoBehaviour {
 
     public void GiveControl(Controller controller)
     {
-        driveController.car.controller = controller;
+        currCar.controller = controller;
 
         if (WorldController.Instance.world.carForParking != null)
+		{
             WorldController.Instance.world.carForParking.controller = Controller.None;
+		}
 
-        WorldController.Instance.world.carForParking = driveController.car;
+        WorldController.Instance.world.carForParking = currCar;
         ExitButton();
     }
 
-    public void SetCurrentCarsDriverController(DriveController _driveController)
+	public void SetCurrentCarsDriverController(Car car)
     {
-        driveController = _driveController;
+        currCar = car;
     }
     public void ExitButton()
     {

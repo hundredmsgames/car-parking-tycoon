@@ -6,33 +6,30 @@ public class CarSystemController : MonoBehaviour {
 
     DriveController driveController = null;
 
-    public GameObject CarControlCanvas;
+	public CarControlCanvasController carControlCanvas;
+
     // Use this for initialization
-    void Start () {
+    void Start ()
+	{
         driveController = GetComponent<DriveController>();
-
-        CarControlCanvas = WorldController.Instance.CarControlCanvas;
-
+		carControlCanvas = WorldController.Instance.CarControlCanvas.GetComponent<CarControlCanvasController>();
     }
 	
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))
         {
-                if (driveController != null)
-                {
-
+            if (driveController != null)
+			{
                 //activate UI
-                if(CarControlCanvas.activeSelf == false)
-                    CarControlCanvas.SetActive(true);
+				if(carControlCanvas.gameObject.activeSelf == false)
+					carControlCanvas.gameObject.SetActive(true);
 
-                CarControlCanvas.transform.SetParent(transform);
-                CarControlCanvas.GetComponent<CarControlCanvasController>().SetCurrentCarsDriverController(driveController);
-
-                }
-            }
-
-        }
+                carControlCanvas.transform.SetParent(transform);
+                carControlCanvas.SetCurrentCarsDriverController(driveController.car);
+        	}
+    	}
+	}
 
     private void OnCollisionEnter(Collision collision)
     {
