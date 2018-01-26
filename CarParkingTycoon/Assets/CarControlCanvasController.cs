@@ -37,21 +37,31 @@ public class CarControlCanvasController : MonoBehaviour {
 
     public void GiveControl(Controller controller)
     {
-        currCar.controller = controller;
+		Car carForParking = WorldController.Instance.world.carForParking;
 
-        if (WorldController.Instance.world.carForParking != null)
+		if(carForParking == null || carForParking.getSpeedOfCar == null ||
+			carForParking.getSpeedOfCar() > 0.1f)
 		{
-            WorldController.Instance.world.carForParking.controller = Controller.None;
+			return;
 		}
 
-        WorldController.Instance.world.carForParking = currCar;
-        ExitButton();
+		// We selected car is controlled car by player. We may not show take control button.
+		// This is a temporary solution.
+		if(currCar == carForParking)
+			return;
+
+		currCar.controller = controller;
+        carForParking.controller = Controller.None;
+		WorldController.Instance.world.carForParking = currCar;
+        
+		ExitButton();
     }
 
 	public void SetCurrentCarsDriverController(Car car)
     {
         currCar = car;
     }
+
     public void ExitButton()
     {
         transform.SetParent(null);

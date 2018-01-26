@@ -115,8 +115,8 @@ public class Car
 
 	public void ParkCar(ParkingSpace ps)
 	{
-		StopTheCar();
 		controller = Controller.None;
+		StopTheCar();
 		isParked = true;
 		ps.occupied = true;
 

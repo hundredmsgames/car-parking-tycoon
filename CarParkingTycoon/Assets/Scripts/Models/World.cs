@@ -137,8 +137,6 @@ public class World
 		// For now, anywhere is appropriate for park but the car
 		// should be stopped.
 
-		// TODO: If speed of car below 0.1f, we can show a button in the screen
-		// to park car. This idea is for mobile.
 		if(carForParking == null || carForParking.getSpeedOfCar == null ||
 			carForParking.getSpeedOfCar() > 0.1f)
 		{
