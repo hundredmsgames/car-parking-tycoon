@@ -32,6 +32,9 @@ public class Car
     // if we want to buy or cell cars this will be usefull
     int price;
 
+    //if we already instatiated smoke particules we dont have to instantiate every time we hit an object
+    bool effectAnimIsPlaying = false;
+
 	const float stopError = 0.1f;
 
     public bool isParked;
@@ -59,6 +62,7 @@ public class Car
 	public Action<float> onSetSteerAngle;
     public Action<Car> onPlayerControl;
 	public Func<Vector3[]> getParkingInfo;
+    public Action<Car> onOverDamageEffect;
 
 	// if you want to see specific car info you can add as much as you want
     // we can think about adding smoke particule over decent amount of damage
@@ -101,6 +105,12 @@ public class Car
     public void TakeDamage()
     {
         currentCarStatePercent -= damageTakePerHit;
+
+        if (effectAnimIsPlaying == false && currentCarStatePercent <= 50 && onOverDamageEffect != null)
+        {
+            effectAnimIsPlaying = true;
+            onOverDamageEffect(this);
+        }
     }
 	public void Update()
 	{
@@ -214,7 +224,16 @@ public class Car
         this.onPlayerControl -= cb;
     }
 
-	public void RegisterGetParkingInfo(Func<Vector3[]> cb)
+    public void RegisterOnOverDamageEffect(Action<Car> cb)
+    {
+        this.onOverDamageEffect += cb;
+    }
+
+    public void UnRegisterOnOverDamageEffect(Action<Car> cb)
+    {
+        this.onOverDamageEffect -= cb;
+    }
+    public void RegisterGetParkingInfo(Func<Vector3[]> cb)
 	{
 		this.getParkingInfo += cb;
 	}

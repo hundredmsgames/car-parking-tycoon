@@ -46,7 +46,7 @@ public class World
 				2000f,      		// maxBreakeTorque
 				30f,        		// steering angle
 				100f,       		// damage percent
-				10f,        		// damage per hit ( DPH )
+				70f,        		// damage per hit ( DPH )
 				100,        		// price
 				false,      		// is parked
 				Controller.NPC		// controlled by NPC 

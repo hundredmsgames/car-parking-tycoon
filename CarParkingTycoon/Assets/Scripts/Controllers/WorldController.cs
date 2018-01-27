@@ -98,6 +98,8 @@ public class WorldController : MonoBehaviour
             car.RegisterOnSetSteerAngle(wheelDriveController.SetSteerAngle);
 			car.RegisterGetParkingInfo(parkingController.GetParkingInfo);
         }        
+
+        
 	}
 
 	private int GetNextSpawnPoint()
