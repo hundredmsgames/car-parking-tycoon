@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
-    public float speed = 3f;
+    public float cameraSpeed = 3f;
     Vector3 enterOfCarPark;
 	Camera mainCamera;
 
-    //camera drag drop
-    public float dragSpeed = 3f;
-    private Vector3 dragOrigin;
+    // camera drag drop
+	Vector3 currFramePosition;
+	Vector3 lastFramePosition;
+	Vector3 mousePosition;
 
+	// This is a factor for dragging.
+	// We multiply this factor by camera's y-axis.
+	// It changes when camera zooms in-out.
+	float dragSpeed = 0.75f;
 
     //is camera locked on the target?
     bool cameraLocked;
@@ -21,57 +25,68 @@ public class CameraController : MonoBehaviour
 	{
 		mainCamera = Camera.main;
 		enterOfCarPark = mainCamera.transform.position;
-
     }
 
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            dragOrigin = Input.mousePosition;
-       
-        }
-
-        //if I release button return
-        if (!Input.GetMouseButton(0)) return;
-
-        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        Vector3 move = new Vector3(pos.x * dragSpeed, 0, pos.y* dragSpeed);
-
-        mainCamera.transform.Translate(move, Space.World);
-
-        //dragOrigin = Input.mousePosition;
-    }
-
-
-    void LateUpdate()
+	void LateUpdate()
 	{
+		mousePosition = InputController.Instance.mousePosition;
+
+		// Distance from ground
+		mousePosition.z = mainCamera.transform.position.y * dragSpeed;
+
+		currFramePosition = mainCamera.ScreenToWorldPoint(mousePosition);
+		currFramePosition.y = 0f;
+
 		Car carForParking = WorldController.Instance.world.carForParking;
-		Vector3 cameraPos = mainCamera.transform.position;
 
 		if(carForParking == null)
 		{
-            cameraLocked = false;
-            //mainCamera.transform.position = enterOfCarPark;
-			return;
-		}
-
-		GameObject carForParkingGo = WorldController.Instance.carGoDic[carForParking];
-        Vector3 carPos = enterOfCarPark;
-
-        if (cameraLocked == false && Vector2.Distance(new Vector2(cameraPos.x, cameraPos.z),
-				new Vector2(carForParkingGo.transform.position.x, carForParkingGo.transform.position.z)) > .1
-		){
-			carPos = Vector3.Lerp(mainCamera.transform.position, carForParkingGo.transform.position, Time.deltaTime * speed);
+			cameraLocked = false;
+			UpdateCameraMovement();
 		}
 		else
-        {
-            cameraLocked = true;
-            carPos = WorldController.Instance.carGoDic[carForParking].transform.position;
-        }
+		{
+			FocusCar(WorldController.Instance.carGoDic[carForParking]);
+		}
 
-        carPos.y = enterOfCarPark.y;
+		lastFramePosition = mainCamera.ScreenToWorldPoint(mousePosition);
+		lastFramePosition.y = 0f;
+	}
+
+	void UpdateCameraMovement()
+	{
+		// Handle screen panning
+		if(InputController.Instance.rightClick == true)
+		{
+			Vector3 diff = lastFramePosition - currFramePosition;
+			mainCamera.transform.Translate(diff, Space.World);
+		}
+
+		float cameraPosY = mainCamera.transform.position.y;
+
+		cameraPosY -= cameraPosY * Input.GetAxis("Mouse ScrollWheel");
+		cameraPosY = Mathf.Clamp(cameraPosY, 15f, 25f);
+
+		mainCamera.transform.position = new Vector3(
+			mainCamera.transform.position.x,
+			cameraPosY,
+			mainCamera.transform.position.z
+		);
+	}
+
+	void FocusCar(GameObject carForParkingGo)
+	{
+		Vector3 carPos    = carForParkingGo.transform.position;
+		Vector3 cameraPos = mainCamera.transform.position;
+		carPos.y    = 0f;
+		cameraPos.y = 0f;
+
+		if (cameraLocked == false && (carPos - cameraPos).magnitude > 0.1f)
+			carPos = Vector3.Lerp(cameraPos, carPos, Time.deltaTime * cameraSpeed);
+		else
+			cameraLocked = true;
+
+		carPos.y = enterOfCarPark.y;
 		mainCamera.transform.position = carPos;
-
 	}
 }

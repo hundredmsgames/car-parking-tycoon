@@ -45,7 +45,6 @@ public class WorldController : MonoBehaviour
 		foreach(GameObject proto in protos)
 		{
 			carPrefabs.Add(proto.name, proto);
-          //  Debug.Log(proto.name);
 		}
 	}
 

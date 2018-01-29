@@ -6,6 +6,8 @@ public class InputController : MonoBehaviour
 {
 	public static InputController Instance;
 
+	[HideInInspector]
+	public Vector3 mousePosition;
 
 	[HideInInspector]
 	public float horAxis;
@@ -15,7 +17,13 @@ public class InputController : MonoBehaviour
 
 	[HideInInspector]
 	public float spaceKeyAxis;
-	
+
+	[HideInInspector]
+	public bool leftClick;
+
+	[HideInInspector]
+	public bool rightClick;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -28,6 +36,7 @@ public class InputController : MonoBehaviour
 	void Update ()
 	{
         InputsForCarParking();
+		InputsForMouse();
 	}
 
     void InputsForCarParking()
@@ -42,4 +51,11 @@ public class InputController : MonoBehaviour
             spaceKeyAxis = Input.GetAxis("Jump");
         }
     }
+
+	void InputsForMouse()
+	{
+		leftClick     = Input.GetMouseButton(0);
+		rightClick    = Input.GetMouseButton(1);
+		mousePosition = Input.mousePosition;
+	}
 }
