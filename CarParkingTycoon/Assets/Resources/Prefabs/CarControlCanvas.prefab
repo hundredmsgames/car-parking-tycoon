@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 222330694545173280}
   - component: {fileID: 114669982750061218}
   m_Layer: 5
-  m_Name: backGround
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,6 +127,8 @@ GameObject:
   - component: {fileID: 114136439266997348}
   - component: {fileID: 114247479938490066}
   - component: {fileID: 114156018770404400}
+  - component: {fileID: 225958786045848620}
+  - component: {fileID: 65554577257759878}
   m_Layer: 5
   m_Name: CarControlCanvas
   m_TagString: Untagged
@@ -168,6 +170,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &65554577257759878
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1717059440254792}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0646353, y: 2.7736642, z: 0.12727138}
+  m_Center: {x: -0.00032949448, y: -0.0040779114, z: -0.00018334016}
 --- !u!114 &114026937161809332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,7 +476,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114255162209158470}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114156018770404400}
+        m_MethodName: NPC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114239345767909852
@@ -815,7 +840,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114156018770404400}
-        m_MethodName: TakeControl
+        m_MethodName: Player
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1059,3 +1084,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0.00000017881393, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225958786045848620
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1717059440254792}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039587c051912eb4ead9e58344c5f3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 1
+  multiplier: 2
 --- !u!114 &114789267477078136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1645,7 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minDuration: 8
-  maxDuration: 10
+  maxDuration: 20
 --- !u!114 &114894865275449630
 MonoBehaviour:
   m_ObjectHideFlags: 1

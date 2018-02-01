@@ -40,9 +40,6 @@ public class CarSystemController : MonoBehaviour
 
         GameObject effect_GO = car_GO.transform.Find("Smoke").gameObject;
         effect_GO.SetActive(true);
-
-
-
     }
 
     private void OnCollisionEnter(Collision collision)
