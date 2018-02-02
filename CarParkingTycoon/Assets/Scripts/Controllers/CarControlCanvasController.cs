@@ -29,11 +29,11 @@ public class CarControlCanvasController : MonoBehaviour {
         transform.localPosition = new Vector3(0, 1.5f, 0);
         transform.rotation = mainCamera.transform.rotation;
 
-		if(IsMouseOverCanvas() == true)
+		if(IsMouseOverCanvas() == true && canvasGroup.interactable == false)
 		{
 			canvasGroup.interactable = true;
 		}
-		else
+		else if(IsMouseOverCanvas() == false && canvasGroup.interactable == true)
 		{
 			canvasGroup.interactable = false;
 			if(InputController.Instance.leftClick == true)
@@ -100,7 +100,7 @@ public class CarControlCanvasController : MonoBehaviour {
             {
                 WorldController.Instance.world.carForParking.controller = controller;
             }
-            Debug.Log(controller);
+           // Debug.Log(controller);
         }
         else
         {
@@ -108,11 +108,11 @@ public class CarControlCanvasController : MonoBehaviour {
             WorldController.Instance.world.carForParking = currCar;
         }
 
-		
+        //I want to controll the camera if we select controller as None Player Character
+        if (controller == Controller.NPC)
+            WorldController.Instance.world.carForParking = null;
 
-		
-        
-		ExitButton();
+        ExitButton();
     }
 
 	public void SetCurrentCarsDriverController(Car car)
