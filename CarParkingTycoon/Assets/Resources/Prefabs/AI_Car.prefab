@@ -384,7 +384,9 @@ GameObject:
   - component: {fileID: 4801942076143968}
   - component: {fileID: 54013064242534228}
   - component: {fileID: 114134380933633112}
-  - component: {fileID: 114570356479590300}
+  - component: {fileID: 114249671995541712}
+  - component: {fileID: 114647393091806844}
+  - component: {fileID: 114393033354511298}
   m_Layer: 8
   m_Name: AI_Car
   m_TagString: Obstacle
@@ -1665,6 +1667,35 @@ MonoBehaviour:
   dampingRatio: 0.8
   forceShift: 0.03
   setSuspensionDistance: 1
+--- !u!114 &114249671995541712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824239052657304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227dd37b93aae234cbd481542fcee128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalDist: 0
+  timeScale: 1
+--- !u!114 &114393033354511298
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824239052657304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcedc8789056dd48888eb40f1b5d405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generationNumberText: {fileID: 0}
+  currIndividualText: {fileID: 0}
+  speedText: {fileID: 0}
+  steerAngleText: {fileID: 0}
+  totalDistanceText: {fileID: 0}
 --- !u!114 &114530733955986840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1677,7 +1708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 2
---- !u!114 &114570356479590300
+--- !u!114 &114647393091806844
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1685,9 +1716,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1824239052657304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f731c498269e455429d8f1009348c49f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3aa6c183f68c74747a070dd48bab8eb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wheelShapePrefab: {fileID: 1327774057208936, guid: 6afeb05f0fdcfa740b8f1df15b796d15,
+    type: 2}
+  steerAngle: 0
 --- !u!114 &114651147236763050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1718,9 +1752,9 @@ WheelCollider:
   m_Radius: 0.35
   m_SuspensionSpring:
     spring: 9773.98
-    damper: 2234.0525
+    damper: 2234.0527
     targetPosition: 0.5
-  m_SuspensionDistance: 0.40040815
+  m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.7922581
   m_Mass: 20
   m_WheelDampingRate: 0.25
@@ -1747,9 +1781,9 @@ WheelCollider:
   m_Radius: 0.35
   m_SuspensionSpring:
     spring: 9773.98
-    damper: 2234.0525
+    damper: 2234.0527
     targetPosition: 0.5
-  m_SuspensionDistance: 0.40040815
+  m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.7922581
   m_Mass: 20
   m_WheelDampingRate: 0.25
@@ -1775,8 +1809,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9826.02
-    damper: 2245.9473
+    spring: 9826.019
+    damper: 2245.947
     targetPosition: 0.5
   m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.7922581
@@ -1804,8 +1838,8 @@ WheelCollider:
   m_Center: {x: 0, y: 0, z: 0}
   m_Radius: 0.35
   m_SuspensionSpring:
-    spring: 9826.02
-    damper: 2245.9473
+    spring: 9826.019
+    damper: 2245.947
     targetPosition: 0.5
   m_SuspensionDistance: 0.40040818
   m_ForceAppPointDistance: 0.7922581
