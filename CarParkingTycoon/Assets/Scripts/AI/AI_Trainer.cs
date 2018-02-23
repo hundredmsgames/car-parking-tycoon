@@ -28,7 +28,7 @@ public class AI_Trainer : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		population = new Population(20, new int[]{3, 10, 2}, 1f);
+		population = new Population(10, new int[]{3, 10, 2}, 1f);
 
 		raycastPoint = transform.Find("RaycastPoint");	
 		environments = GameObject.Find("Environments");
@@ -42,6 +42,10 @@ public class AI_Trainer : MonoBehaviour
 		currNN = population.Next();
 	}
 
+    public void NewGenome()
+    {
+        OnCollisionEnter();
+    }
 	// Update is called once per frame
 	void Update ()
 	{
@@ -49,6 +53,8 @@ public class AI_Trainer : MonoBehaviour
 
 		if(driveController.GetSpeedOfCar() < 0.01)
 			OnCollisionEnter();
+
+        
 
 		sensors = new RaycastHit[3];
 

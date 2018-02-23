@@ -129,14 +129,26 @@ namespace NeuralNetwork
 		{
 			NeuralNetwork child = new NeuralNetwork(nn1.inputNodes, nn1.hiddenNodes, nn1.outputNodes, nn1.learningRate);
 
-			Crossover2(nn1.weights_ih, nn2.weights_ih, child.weights_ih);
-			Crossover2(nn1.weights_ho, nn2.weights_ho, child.weights_ho);
-			Crossover2(nn1.bias_h, nn2.bias_h, child.bias_h);
-			Crossover2(nn1.bias_o, nn2.bias_o, child.bias_o);
+            int crossOver = 2;
 
+            if (crossOver == 2)
+            {
+                Crossover2(nn1.weights_ih, nn2.weights_ih, child.weights_ih);
+                Crossover2(nn1.weights_ho, nn2.weights_ho, child.weights_ho);
+                Crossover2(nn1.bias_h, nn2.bias_h, child.bias_h);
+                Crossover2(nn1.bias_o, nn2.bias_o, child.bias_o);
+            }
+            else
+            {
+                Crossover3(nn1.weights_ih, nn2.weights_ih, child.weights_ih);
+                Crossover3(nn1.weights_ho, nn2.weights_ho, child.weights_ho);
+                Crossover3(nn1.bias_h, nn2.bias_h, child.bias_h);
+                Crossover3(nn1.bias_o, nn2.bias_o, child.bias_o);
+            }
 			return child;
 		}
-
+        //we are crossing over the rows like "take rows from matrix1 till
+        //middle and then take rest of the matrix2 (from middle)
 		private void Crossover2(Matrix m1, Matrix m2, Matrix child)
 		{
 			int rows = m1.data.GetLength(0);
@@ -152,6 +164,35 @@ namespace NeuralNetwork
 						child.data[i, j] = m2.data[i, j];
 			}
 		}
-	}
+        //we are crossing over every data in two matrises
+        ///m1
+        /// 1 2 3 
+        /// 5 6 7
+        /// 
+        /// m2
+        /// 4 8 9
+        /// 0 3 2
+        /// 
+        /// 4 2 9
+        /// 0 6 2
+
+
+    
+        private void Crossover3(Matrix m1, Matrix m2, Matrix child)
+        {
+            int rows = m1.data.GetLength(0);
+            int cols = m2.data.GetLength(1);
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                    if (i % 2  == 0 )
+                        child.data[i, j] = m1.data[i, j];
+                    else
+                        child.data[i, j] = m2.data[i, j];
+            }
+        }
+
+    }
 }
 

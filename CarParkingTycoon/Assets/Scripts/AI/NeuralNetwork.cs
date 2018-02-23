@@ -82,7 +82,7 @@ namespace NeuralNetwork
 
 
 			// Backpropagation Process
-			Matrix neto_d_E = (outs_out - target) * Matrix.Map(outs_out, DerSigmoid);
+			Matrix neto_d_E = (outs_out - target) * Matrix.Map(outs_out, DerSigmoid);//error calc
 
 			Matrix wo_d_neto = Matrix.Map(out_hid, DerNetFunc);
 
