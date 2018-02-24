@@ -20,6 +20,7 @@ public class AI_Trainer : MonoBehaviour
 	Vector3 currCarPos;
 	Vector3 lastCarPos;
 	public float totalDist;
+	public float timePassed;
 
 	public float timeScale = 1f;
 
@@ -54,8 +55,6 @@ public class AI_Trainer : MonoBehaviour
 		if(driveController.GetSpeedOfCar() < 0.01)
 			OnCollisionEnter();
 
-        
-
 		sensors = new RaycastHit[3];
 
 		Physics.Raycast(raycastPoint.position, raycastPoint.forward, out sensors[0], rayDist);
@@ -85,24 +84,20 @@ public class AI_Trainer : MonoBehaviour
 		double[] outputs;
 		outputs = currNN.FeedForward(inputs);
 
-		Debug.Log(outputs[0]);
-
-
 		driveController.SetMaxSpeed((float) outputs[0]);
-
-		Debug.Log("desired speed: " + driveController.desiredSpeed);
-
 		driveController.SetSteerAngle((float) outputs[1]);
 		driveController.SetMotorTorque(1f);
 
 		currCarPos = transform.position;
 		totalDist += Vector3.Distance(currCarPos, lastCarPos);
 		lastCarPos = currCarPos;
+
+		timePassed += Time.deltaTime;
 	}
 
 	void OnCollisionEnter()
 	{
-		population.SetFitnessOfCurrIndividual(totalDist);
+		population.SetFitnessOfCurrIndividual(totalDist, timePassed);
 		currNN = population.Next();
 		ResetCarPosition();
 	}
@@ -116,6 +111,7 @@ public class AI_Trainer : MonoBehaviour
 
 		driveController.SetMotorTorque(0f);
 		totalDist = 0f;
+		timePassed = 0f;
 	}
 
 	void DrawSensorLines()

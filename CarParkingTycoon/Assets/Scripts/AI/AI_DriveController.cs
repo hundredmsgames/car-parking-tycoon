@@ -21,7 +21,7 @@ public class AI_DriveController : MonoBehaviour
 	float currentSpeed;
 	public float desiredSpeed;
 
-	float maxSpeed = 100f;
+	float maxSpeed = 60f;
     float minSpeed = 10f;
 
 	// Drag variables. These are used to slow down the car
@@ -102,7 +102,7 @@ public class AI_DriveController : MonoBehaviour
 
 	public void SetSteerAngle(float steerAngle)
 	{
-		this.steerAngle = Mathf.Lerp(-30f, 30f, (steerAngle + 1f) / 2f);
+		this.steerAngle = Mathf.Lerp(-maxSteerAngle, maxSteerAngle, (steerAngle + 1f) / 2f);
 	}
 
 	public float GetSpeedOfCar()

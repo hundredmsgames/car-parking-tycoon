@@ -1679,6 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalDist: 0
+  timePassed: 0
   timeScale: 1
 --- !u!114 &114393033354511298
 MonoBehaviour:
@@ -1722,6 +1723,7 @@ MonoBehaviour:
   wheelShapePrefab: {fileID: 1327774057208936, guid: 6afeb05f0fdcfa740b8f1df15b796d15,
     type: 2}
   steerAngle: 0
+  desiredSpeed: 0
 --- !u!114 &114651147236763050
 MonoBehaviour:
   m_ObjectHideFlags: 1

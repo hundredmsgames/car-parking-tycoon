@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace NeuralNetwork
@@ -10,7 +11,8 @@ namespace NeuralNetwork
 
 		NeuralNetwork[] individuals;
 
-		float[] fitness;
+		float[] distanceFitness;
+		float[] timeFitness;
 
 		public int populationSize;
 
@@ -29,7 +31,9 @@ namespace NeuralNetwork
 
 			randomize = new System.Random();
 
-			fitness = new float[populationSize];
+			distanceFitness = new float[populationSize];
+			timeFitness     = new float[populationSize];
+
 			individuals = new NeuralNetwork[populationSize];
 			for(int i = 0; i < individuals.Length; i++)
 				individuals[i] = new NeuralNetwork(topology[0], topology[1], topology[2], learningRate);
@@ -44,9 +48,10 @@ namespace NeuralNetwork
 			return individuals[currIndiv];
 		}
 
-		public void SetFitnessOfCurrIndividual(float fitness)
+		public void SetFitnessOfCurrIndividual(float dist, float time)
 		{
-			this.fitness[currIndiv] = fitness;
+			this.distanceFitness[currIndiv] = dist;
+			this.timeFitness[currIndiv]     = time;
 		}
 
 		private void NewGeneration()
@@ -61,7 +66,8 @@ namespace NeuralNetwork
 				individuals[i] = Mutation(child);
 			}
 				
-			fitness = new float[populationSize];
+			distanceFitness = new float[populationSize];
+			timeFitness     = new float[populationSize];
 
 			generationNumber++;
 			currIndiv = 0;
@@ -72,30 +78,90 @@ namespace NeuralNetwork
 			int firstIndex = 0;
 			int secondIndex = 1;
 
-			if(fitness[firstIndex] < fitness[secondIndex])
+			if(distanceFitness[firstIndex] < distanceFitness[secondIndex])
 			{
 				int temp = firstIndex;
 				firstIndex = secondIndex;
 				secondIndex = temp;
 			}
 
-			for(int i = 2; i < fitness.Length; i++)
+			for(int i = 2; i < distanceFitness.Length; i++)
 			{
-				if(fitness[i] > fitness[secondIndex])
+				if(distanceFitness[i] > distanceFitness[secondIndex])
 				{
 					secondIndex = i;
-					if(fitness[secondIndex] > fitness[firstIndex])
+					if(distanceFitness[secondIndex] > distanceFitness[firstIndex])
 					{
 						int temp = firstIndex;
 						firstIndex = secondIndex;
 						secondIndex = temp;
 					}
 				}
-
 			}
 
 			first = individuals[firstIndex];
 			second = individuals[secondIndex];
+		}
+
+		// Method should be get the some (populationSize / 2) genome
+		// with best distance and pick the genome with min time.
+		// FIXME: It has some bugs.
+		private void FindFirstAndSecond2(out NeuralNetwork first, out NeuralNetwork second)
+		{
+			int[] bestDistance = new int[populationSize / 2];
+
+			for(int i = 0; i < distanceFitness.Length; i++)
+			{
+				for(int j = bestDistance.Length - 1; j >= 0; j--)
+				{
+					if(distanceFitness[i] > distanceFitness[bestDistance[j]])
+					{
+						if(j + 1 != bestDistance.Length)
+							bestDistance[j + 1] = bestDistance[j];
+
+						bestDistance[j] = i;
+					}
+				}
+			}
+
+			int firstIndex = bestDistance[0];
+			int secondIndex = bestDistance[1];
+
+			if(timeFitness[firstIndex] > timeFitness[secondIndex])
+			{
+				int temp = firstIndex;
+				firstIndex = secondIndex;
+				secondIndex = temp;
+			}
+
+			for(int i = 2; i < bestDistance.Length; i++)
+			{
+				if(timeFitness[bestDistance[i]] < timeFitness[secondIndex])
+				{
+					secondIndex = bestDistance[i];
+					if(timeFitness[secondIndex] < timeFitness[firstIndex])
+					{
+						int temp = firstIndex;
+						firstIndex = secondIndex;
+						secondIndex = temp;
+					}
+				}
+			}
+
+//			Debug.Log(firstIndex);
+//			Debug.Log(secondIndex);
+
+			first = individuals[firstIndex];
+			second = individuals[secondIndex];
+
+//			for(int i = 0; i < distanceFitness.Length; i++)
+//				Debug.Log("distanceFitness[" + i + "]: " + distanceFitness[i]);
+//
+//			for(int i = 0; i < bestDistance.Length; i++)
+//				Debug.Log("bestDistance[" + i + "]: " + bestDistance[i]);
+//
+//			for(int i = 0; i < timeFitness.Length; i++)
+//				Debug.Log(string.Format("time[{0}]: {1}", i, timeFitness[i]));
 		}
 
 		private NeuralNetwork Mutation(NeuralNetwork child)
