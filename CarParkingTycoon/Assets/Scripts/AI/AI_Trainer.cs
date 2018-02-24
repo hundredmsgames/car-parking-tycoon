@@ -28,7 +28,7 @@ public class AI_Trainer : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		population = new Population(10, new int[]{3, 10, 2}, 1f);
+		population = new Population(10, new int[]{3, 100, 2}, 1f);
 
 		raycastPoint = transform.Find("RaycastPoint");	
 		environments = GameObject.Find("Environments");
@@ -85,7 +85,13 @@ public class AI_Trainer : MonoBehaviour
 		double[] outputs;
 		outputs = currNN.FeedForward(inputs);
 
+		Debug.Log(outputs[0]);
+
+
 		driveController.SetMaxSpeed((float) outputs[0]);
+
+		Debug.Log("desired speed: " + driveController.desiredSpeed);
+
 		driveController.SetSteerAngle((float) outputs[1]);
 		driveController.SetMotorTorque(1f);
 

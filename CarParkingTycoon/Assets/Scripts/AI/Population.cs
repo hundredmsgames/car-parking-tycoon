@@ -23,7 +23,7 @@ namespace NeuralNetwork
 		public Population(int populationSize, int[] topology, double learningRate)
 		{
 			this.populationSize = populationSize;
-			this.mutationRate = 3;
+			this.mutationRate = 30;
 			this.generationNumber = 1;
 			this.currIndiv = -1;
 

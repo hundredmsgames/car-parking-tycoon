@@ -19,6 +19,7 @@ public class AI_DriveController : MonoBehaviour
 	float maxSteerAngle = 30f;
 
 	float currentSpeed;
+	public float desiredSpeed;
 
 	float maxSpeed = 100f;
     float minSpeed = 10f;
@@ -75,7 +76,7 @@ public class AI_DriveController : MonoBehaviour
 			if (wheel.transform.localPosition.z > 0)
 				wheel.steerAngle = steerAngle;
 
-			if (currentSpeed < maxSpeed)
+			if (currentSpeed < desiredSpeed)
 			{
 				if (wheel.transform.localPosition.z < 0)
 					wheel.motorTorque = motorTorque;
@@ -96,7 +97,7 @@ public class AI_DriveController : MonoBehaviour
 
 	public void SetMaxSpeed(float maxSpeed)
 	{
-		this.maxSpeed = Mathf.Lerp(minSpeed , this.maxSpeed, (maxSpeed + 1f) / 2f);
+		this.desiredSpeed = Mathf.Lerp(minSpeed , this.maxSpeed, (maxSpeed + 1f) / 2f);
 	}
 
 	public void SetSteerAngle(float steerAngle)
