@@ -11,7 +11,7 @@ public class AI_DriveController : MonoBehaviour
 	// Curr motor torque
 	float motorTorque;
 
-	float maxMotorTorque = 1500f;
+	float maxMotorTorque = 900f;
 
 	// Curr steer angle
 	public float steerAngle;
@@ -21,7 +21,7 @@ public class AI_DriveController : MonoBehaviour
 	float currentSpeed;
 	public float desiredSpeed;
 
-	float maxSpeed = 60f;
+	float maxSpeed = 40f;
     float minSpeed = 10f;
 
 	// Drag variables. These are used to slow down the car

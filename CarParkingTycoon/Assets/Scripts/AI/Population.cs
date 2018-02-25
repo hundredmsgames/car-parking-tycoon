@@ -57,7 +57,7 @@ namespace NeuralNetwork
 		private void NewGeneration()
 		{
 			NeuralNetwork first, second;
-			FindFirstAndSecond(out first, out second);
+			FindFirstAndSecond2(out first, out second);
 
 			NeuralNetwork child = Crossover(first, second);
 
@@ -109,12 +109,14 @@ namespace NeuralNetwork
 		private void FindFirstAndSecond2(out NeuralNetwork first, out NeuralNetwork second)
 		{
 			int[] bestDistance = new int[populationSize / 2];
-
+			for(int i = 0; i < bestDistance.Length; i++)
+				bestDistance[i] = -1;
+			
 			for(int i = 0; i < distanceFitness.Length; i++)
 			{
 				for(int j = bestDistance.Length - 1; j >= 0; j--)
 				{
-					if(distanceFitness[i] > distanceFitness[bestDistance[j]])
+					if(bestDistance[j] == -1 || distanceFitness[i] > distanceFitness[bestDistance[j]])
 					{
 						if(j + 1 != bestDistance.Length)
 							bestDistance[j + 1] = bestDistance[j];

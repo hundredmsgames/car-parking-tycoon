@@ -24,7 +24,7 @@ public class AI_Trainer : MonoBehaviour
 
 	public float timeScale = 1f;
 
-	float rayDist = 7;
+	float rayDist = 11;
 
 	// Use this for initialization
 	void Start ()
