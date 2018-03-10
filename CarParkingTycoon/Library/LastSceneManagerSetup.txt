@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/AI_TestScene.unity
+- path: Assets/Scenes/LoopGameTest.unity
   isLoaded: 1
   isActive: 1
