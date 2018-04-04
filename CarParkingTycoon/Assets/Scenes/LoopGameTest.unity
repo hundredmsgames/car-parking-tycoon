@@ -2082,6 +2082,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carPrefab: {fileID: 1697187566963412, guid: 7a1103e369e43754eb426fe4809b3cee, type: 2}
+  car: {fileID: 0}
+  loopCar: {fileID: 0}
+  keyStates: []
+  loopKeyStates: []
+  startTime: 0
+  looperStartTime: 0
+  spawnTime: 5
+  gg: 0
+  vv: 0
 --- !u!4 &1578842989
 Transform:
   m_ObjectHideFlags: 0
