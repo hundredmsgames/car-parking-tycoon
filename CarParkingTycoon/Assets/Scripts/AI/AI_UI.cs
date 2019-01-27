@@ -11,8 +11,17 @@ public class AI_UI : MonoBehaviour
 	public TextMeshProUGUI steerAngleText;
 	public TextMeshProUGUI totalDistanceText;
 
-	// Update is called once per frame
-	void Update ()
+    private void Start()
+    {
+        generationNumberText.color = Color.blue;
+        currIndividualText.color = Color.blue;
+        speedText.color = Color.blue;
+        steerAngleText.color = Color.blue;
+        totalDistanceText.color = Color.blue;
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
 		generationNumberText.text = "Generation: " + GetComponent<AI_Trainer>().population.generationNumber;
 		currIndividualText.text = "Population: " + GetComponent<AI_Trainer>().population.populationSize +"  Genome: "+(GetComponent<AI_Trainer>().population.currIndiv + 1) ;

@@ -57,7 +57,7 @@ namespace NeuralNetwork
 		private void NewGeneration()
 		{
 			NeuralNetwork first, second;
-			FindFirstAndSecond2(out first, out second);
+			FindFirstAndSecond(out first, out second);
 
 			NeuralNetwork child = Crossover(first, second);
 
@@ -124,7 +124,7 @@ namespace NeuralNetwork
 						bestDistance[j] = i;
 					}
 				}
-			}
+            }
 
 			int firstIndex = bestDistance[0];
 			int secondIndex = bestDistance[1];
@@ -150,21 +150,21 @@ namespace NeuralNetwork
 				}
 			}
 
-//			Debug.Log(firstIndex);
-//			Debug.Log(secondIndex);
+            Debug.Log(firstIndex);
+            Debug.Log(secondIndex);
 
-			first = individuals[firstIndex];
+            first = individuals[firstIndex];
 			second = individuals[secondIndex];
 
-//			for(int i = 0; i < distanceFitness.Length; i++)
-//				Debug.Log("distanceFitness[" + i + "]: " + distanceFitness[i]);
-//
-//			for(int i = 0; i < bestDistance.Length; i++)
-//				Debug.Log("bestDistance[" + i + "]: " + bestDistance[i]);
-//
-//			for(int i = 0; i < timeFitness.Length; i++)
-//				Debug.Log(string.Format("time[{0}]: {1}", i, timeFitness[i]));
-		}
+            for (int i = 0; i < distanceFitness.Length; i++)
+                Debug.Log("distanceFitness[" + i + "]: " + distanceFitness[i]);
+
+            for (int i = 0; i < bestDistance.Length; i++)
+                Debug.Log("bestDistance[" + i + "]: " + bestDistance[i]);
+
+            for (int i = 0; i < timeFitness.Length; i++)
+                Debug.Log(string.Format("time[{0}]: {1}", i, timeFitness[i]));
+        }
 
 		private NeuralNetwork Mutation(NeuralNetwork child)
 		{
