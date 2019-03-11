@@ -6026,6 +6026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227dd37b93aae234cbd481542fcee128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineRendererMaterial: {fileID: 2100000, guid: 0a037de6d9ca6bd48828b8bbe2e0cef7,
+    type: 2}
   totalDist: 0
   timePassed: 0
   timeScale: 1
@@ -6062,6 +6064,7 @@ MonoBehaviour:
   speedText: {fileID: 0}
   steerAngleText: {fileID: 0}
   totalDistanceText: {fileID: 0}
+  changeSpeedButton: {fileID: 0}
 --- !u!1 &1839263134875984
 GameObject:
   m_ObjectHideFlags: 0

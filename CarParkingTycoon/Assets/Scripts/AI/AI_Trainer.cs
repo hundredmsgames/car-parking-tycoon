@@ -13,6 +13,7 @@ public class AI_Trainer : MonoBehaviour
 	RaycastHit[] sensors;
 	GameObject environments;
 	GameObject[] lines;
+    public Material lineRendererMaterial;
 
 	Vector3 startPosition;
 	Quaternion startRotation;
@@ -32,7 +33,7 @@ public class AI_Trainer : MonoBehaviour
 		population = new Population(10, new int[]{5, 200, 2}, 1f);
 
 		raycastPoint = transform.Find("RaycastPoint");	
-		environments = GameObject.Find("Environments");
+		environments = GameObject.Find("Environment");
 		driveController = GetComponent<AI_DriveController>();
 
 		startPosition = transform.position;
@@ -47,6 +48,19 @@ public class AI_Trainer : MonoBehaviour
     {
         OnCollisionEnter();
     }
+
+    public void ChangeSpeed()
+    {
+        if (timeScale == 1f)
+            timeScale = 2f;
+        else if (timeScale == 2f)
+            timeScale = 5f;
+        else if (timeScale == 5f)
+            timeScale = 10f;
+        else if (timeScale == 10f)
+            timeScale = 1f;
+    }
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -216,9 +230,8 @@ public class AI_Trainer : MonoBehaviour
 
 		line.transform.position = start;
 		line.AddComponent<LineRenderer>();
-        Debug.Log(line.GetComponent<LineRenderer>());
 		LineRenderer lr = line.GetComponent<LineRenderer>();
-		lr.material = new Material(Shader.Find("Particles/Priority Alpha Blended"));
+        lr.material = lineRendererMaterial; //new Material(Shader.Find("Particles/Priority Alpha Blended"));
 		lr.startColor = color;
 		lr.endColor = color;
 		lr.startWidth = 0.05f;

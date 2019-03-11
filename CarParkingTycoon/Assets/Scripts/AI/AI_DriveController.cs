@@ -21,8 +21,8 @@ public class AI_DriveController : MonoBehaviour
 	float currentSpeed;
 	public float desiredSpeed;
 
-	float maxSpeed = 20f;
-    float minSpeed = 10f;
+	float maxSpeed = 40f;
+    float minSpeed = 20f;
 
 	// Drag variables. These are used to slow down the car
 	// when there is no torque on it.

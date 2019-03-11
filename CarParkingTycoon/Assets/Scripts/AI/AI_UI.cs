@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class AI_UI : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class AI_UI : MonoBehaviour
 	public TextMeshProUGUI speedText;
 	public TextMeshProUGUI steerAngleText;
 	public TextMeshProUGUI totalDistanceText;
+    public Button changeSpeedButton;
 
     private void Start()
     {
@@ -29,5 +31,7 @@ public class AI_UI : MonoBehaviour
 		speedText.text = string.Format("Speed: {0:F2}", GetComponent<AI_DriveController>().GetSpeedOfCar());
 		steerAngleText.text = string.Format("Steer Angle: {0:F2}", GetComponent<AI_DriveController>().steerAngle);
 		totalDistanceText.text = string.Format("Distance: {0:F0}", GetComponent<AI_Trainer>().totalDist);
-	}
+        changeSpeedButton.GetComponentInChildren<Text>().text =
+            string.Format("{0:F0}x", GetComponent<AI_Trainer>().timeScale);
+    }
 }
