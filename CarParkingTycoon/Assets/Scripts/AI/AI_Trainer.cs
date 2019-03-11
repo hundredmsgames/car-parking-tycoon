@@ -216,8 +216,9 @@ public class AI_Trainer : MonoBehaviour
 
 		line.transform.position = start;
 		line.AddComponent<LineRenderer>();
+        Debug.Log(line.GetComponent<LineRenderer>());
 		LineRenderer lr = line.GetComponent<LineRenderer>();
-		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+		lr.material = new Material(Shader.Find("Particles/Priority Alpha Blended"));
 		lr.startColor = color;
 		lr.endColor = color;
 		lr.startWidth = 0.05f;
